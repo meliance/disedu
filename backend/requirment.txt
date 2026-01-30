@@ -1,0 +1,13 @@
+pip install django
+pip install djangorestframework
+pip install django-cors-headers
+pip install djangorestframework-simplejwt
+pip install Pillow          # for image/file uploads
+pip install python-decouple # optional, for environment variables
+
+🔜 What do you want next?
+
+1️⃣ Student Dashboard APIs
+2️⃣ Registrar approval workflow
+3️⃣ Finance staff dashboard
+4️⃣ React integration (payment flow UI)
