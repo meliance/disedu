@@ -3,6 +3,22 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { loginUser } from "../api/auth";
 
+
+const handleLogin = async () => {
+  const response = await axios.post(
+    "http://127.0.0.1:8000/api/token/",
+    {
+      email,
+      password,
+    }
+  );
+
+  localStorage.setItem("access", response.data.access);
+  localStorage.setItem("refresh", response.data.refresh);
+
+  navigate("/dashboard");
+};
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
