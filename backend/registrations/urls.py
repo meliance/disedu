@@ -1,8 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from .views import RegistrationViewSet, AddCourseRequestViewSet
+from django.urls import path
+from .views import RoleDashboardView
 
-router = DefaultRouter()
-router.register("registrations", RegistrationViewSet, basename="registrations")
-router.register("add-course-requests", AddCourseRequestViewSet, basename="add-course")
-
-urlpatterns = router.urls
+urlpatterns = [
+    path("dashboard/", RoleDashboardView.as_view(), name="role_dashboard"),
+]
