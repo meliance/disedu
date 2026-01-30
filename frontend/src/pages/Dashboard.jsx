@@ -7,7 +7,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await api.get("/api/students/dashboard/");
+        const res = await api.get("/students/dashboard/"); 
         setStudent(res.data);
       } catch (err) {
         console.error(err);
@@ -20,12 +20,12 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1>Welcome, {student.user_full_name}</h1>
-      <p>Email: {student.user_email}</p>
-      <p>Student ID: {student.student_id}</p>
-      <p>Program: {student.program}</p>
-      <p>Department: {student.department}</p>
-      <p>Year: {student.year}</p>
+      <h1>Welcome, {student.profile.full_name}</h1>
+      <p>Email: {student.profile.email}</p>
+      <p>Student ID: {student.profile.student_id}</p>
+      <p>Program: {student.profile.program}</p>
+      <p>Department: {student.profile.department}</p>
+      <p>Year: {student.profile.year}</p>
 
       <h2>Registrations:</h2>
       {student.registrations.length === 0 ? (

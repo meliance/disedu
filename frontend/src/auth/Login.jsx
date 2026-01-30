@@ -1,39 +1,41 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import { loginUser } from "../api/auth";
-
-
-const handleLogin = async () => {
-  const response = await axios.post(
-    "http://127.0.0.1:8000/api/token/",
-    {
-      email,
-      password,
-    }
-  );
-
-  localStorage.setItem("access", response.data.access);
-  localStorage.setItem("refresh", response.data.refresh);
-
-  navigate("/dashboard");
-};
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     try {
-      const data = await loginUser(email, password);
-      login(data);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/token/",
+        {
+          email: email,
+          password: password,
+        }
+      );
+
+      // ✅ Save tokens
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+
+      // Go to dashboard
       navigate("/dashboard");
+
     } catch (err) {
+      console.error(err);
       setError("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +66,9 @@ const Login = () => {
 
         <br /><br />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </div>
   );

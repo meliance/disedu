@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "http://127.0.0.1:8000/api",  
 });
 
-// Attach access token to every request
+// Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
   if (token) {
@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auto refresh when access expires
+// Auto refresh token
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -26,7 +26,7 @@ api.interceptors.response.use(
         const refresh = localStorage.getItem("refresh");
 
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/token/refresh/",
+          "http://127.0.0.1:8000/api/accounts/token/refresh/",
           { refresh }
         );
 
