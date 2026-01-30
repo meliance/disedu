@@ -1,3 +1,4 @@
+# accounts/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -6,10 +7,9 @@ from django.shortcuts import get_object_or_404
 from students.models import Student
 from registrations.models import Registration
 from payments.models import Payment
-from students.serializers import StudentSerializer
+from students.serializers import StudentDashboardSerializer
 from registrations.serializers import RegistrationSerializer
 from payments.serializers import PaymentSerializer
-from .models import User
 
 
 class RoleDashboardView(APIView):
@@ -32,13 +32,13 @@ class RoleDashboardView(APIView):
             payments = Payment.objects.filter(student=student)
 
             data.update({
-                "profile": StudentSerializer(student).data,
+                "profile": StudentDashboardSerializer(student).data,
                 "registrations": RegistrationSerializer(registrations, many=True).data,
                 "payments": PaymentSerializer(payments, many=True).data,
             })
 
         elif role in ["admin", "registrar", "finance"]:
-            # Admin/Registrar/Finance dashboard
+            # Admin/Registrar/Finance dashboard (summary stats)
             data.update({
                 "total_students": Student.objects.count(),
                 "pending_approvals": Student.objects.filter(is_approved=False).count(),
